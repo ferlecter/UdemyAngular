@@ -1,8 +1,9 @@
 <h1>
   <app-progress-bar [progress]='counterProgress'></app-progress-bar>
-  <app-countdown [init]='totalCountDown' 
-  (onDecrease)='updateProgress($event)'
-  (onComplete)='countDownFinished()'
-  ></app-countdown>
- </h1>
- 
+  <app-countdown #countDown 
+  [init]='totalCountDown' 
+  (onDecrease)='updateProgress($event)' 
+  (onComplete)='countDownFinished()'>
+  </app-countdown>
+  <button (click)="countDown.startCountDown(); counterProgress=0">Restart</button>
+</h1>

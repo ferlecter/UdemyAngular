@@ -12,8 +12,9 @@ export class CountdownComponent implements OnInit {
 
   @Output() onDecrease = new EventEmitter<number>();
   @Output() onComplete = new EventEmitter<void>();
-  
+
   public counter: number = 0;
+  private countDownTimerRef: any = null;
 
   ngOnInit(): void {
     this.startCountDown();
@@ -21,16 +22,24 @@ export class CountdownComponent implements OnInit {
 
   startCountDown() {
     if (this.init && this.init > 0) {
+      this.clearTimeOut();
       this.counter = this.init;
       this.doCountDown();
     }
   }
 
   doCountDown() {
-    setTimeout(() => {
+    this.countDownTimerRef = setTimeout(() => {
       this.counter = this.counter - 1;
       this.processCountDown();
     }, 1000)
+  }
+
+  private clearTimeOut() {
+    if (this.countDownTimerRef) {
+      clearTimeout(this.countDownTimerRef);
+      this.countDownTimerRef = null;
+    }
   }
 
   processCountDown() {
@@ -40,7 +49,7 @@ export class CountdownComponent implements OnInit {
     if (this.counter == 0) {
       console.log('counter end');
       this.onComplete.emit();
-    }else{
+    } else {
       this.doCountDown();
     }
   }
